@@ -1,0 +1,37 @@
+{
+  "name": "agendamento-automatizado",
+  "version": "1.0.0",
+  "description": "sistema de agendamento automatizado",
+  "license": "ISC",
+  "author": "Antonio Marcos Vieira Silva",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tsx watch --env-file=.env src/server.ts",
+    "start": "node dist/server.js",
+    "format": "npx biome check . --write",
+    "test": "vitest"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.3.11",
+    "@types/node": "^25.0.5",
+    "@types/pg": "^8.16.0",
+    "prisma": "^7.2.0",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.16"
+  },
+  "dependencies": {
+    "@fastify/cors": "^11.2.0",
+    "@fastify/swagger": "^9.6.1",
+    "@prisma/adapter-pg": "^7.2.0",
+    "@prisma/client": "^7.2.0",
+    "@scalar/fastify-api-reference": "^1.43.1",
+    "bcryptjs": "^3.0.3",
+    "dotenv": "^17.2.3",
+    "fastify": "^5.6.2",
+    "fastify-type-provider-zod": "^6.1.0",
+    "pg": "^8.16.3",
+    "zod": "^4.3.5"
+  }
+}
