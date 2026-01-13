@@ -30,4 +30,16 @@ export class InMemoryServicesRepository implements ServicesRepository {
 
     return services
   }
+
+  async findById(serviceId: string) {
+
+    const service = this.items.find(item => item.id === serviceId)
+
+    if(!service){
+      return null
+    }
+
+    return service
+    
+  }
 }

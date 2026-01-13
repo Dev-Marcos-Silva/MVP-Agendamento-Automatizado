@@ -27,7 +27,7 @@ describe('Create A Service', () => {
 
     await sut.execute({
       accountId: 'account-1',
-      name: 'cortes de cabelo',
+      name: 'corte de cabelo',
       description: 'descrição do serviço',
       price: '25,00'
     })
@@ -46,7 +46,7 @@ describe('Create A Service', () => {
     await expect(
       sut.execute({
         accountId: 'account-2',
-        name: 'cortes de cabelo',
+        name: 'corte de cabelo',
         description: 'descrição do serviço',
         price: '25,00'
       }),
