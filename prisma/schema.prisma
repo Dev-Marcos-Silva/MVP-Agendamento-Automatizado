@@ -69,7 +69,7 @@ model Appointment {
   id            String @id @default(uuid())
   client        String
   phone         String
-  date          DateTime @default(now())
+  date          String
   startTime     String
   endTime       String
   status        Status @default(scheduled)

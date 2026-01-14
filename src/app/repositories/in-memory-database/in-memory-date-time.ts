@@ -36,4 +36,47 @@ export class InMemoryDateTimeRepository implements DateTimeRepository {
 
     return dateTime
   }
+
+  async findById(dateTimeId: string) {
+
+    const dataTime = this.items.find(item => item.id === dateTimeId)
+
+    if(!dataTime){
+      return null
+    }
+
+    return dataTime
+    
+  }
+
+  async updateDate(dateTime: Datetime) {
+
+    const dateTimeIndex = this.items.findIndex(item => item.id === dateTime.id)
+
+    this.items[dateTimeIndex] = dateTime
+
+    const newdateTime = this.items.find(item => item.id === dateTime.id)
+
+    if(!newdateTime){
+      return null
+    }
+
+    return newdateTime
+
+  }
+  async updateTime(dateTime: Datetime) {
+
+    const dateTimeIndex = this.items.findIndex(item => item.id === dateTime.id)
+
+    this.items[dateTimeIndex] = dateTime
+
+    const newdateTime = this.items.find(item => item.id === dateTime.id)
+
+    if(!newdateTime){
+      return null
+    }
+
+    return newdateTime
+  }
 }
+

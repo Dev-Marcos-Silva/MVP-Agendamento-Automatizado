@@ -8,19 +8,20 @@ Entidade de dominio: agendamento, serviço, horário, data, conta
 
 ### User Client
 
-- [] Deve ser possível criar um agendamento com data, hora, serviço, nome e telefone
-- [] Deve ser possível cancelar o agendamento
-- [] Deve ser possível visualizar o seu agendamento
+- [] Deve ser possível visualizar os horários e datas disponível
+- [x] Deve ser possível criar um agendamento com data, hora, serviço, nome e telefone
+- [x] Deve ser possível cancelar o agendamento
+- [x] Deve ser possível visualizar o seu agendamento
 
 ### User Admin
 
 - [x] Deve ser possível se autenticar email e senha (conta previamente criada pelo sistema)
 - [x] Deve ser possível definir horário e datas de funcionamento
-- [] Deve ser possível bloquear um dia de funcionamento
-- [] Deve ser possível visualizar todos os agendamentos dos clientes
-- [] Deve ser possível visualizar um agendamento de um cliente em detalhe
-- [] Deve ser possível finalizar o agendamento
-- [] Deve ser possível modificar os horários de um dia já existente
+- [x] Deve ser possível bloquear um dia de funcionamento
+- [x] Deve ser possível visualizar todos os agendamentos dos clientes
+- [x] Deve ser possível visualizar um agendamento de um cliente em detalhe
+- [x] Deve ser possível finalizar o agendamento
+- [x] Deve ser possível modificar os horários de um dia já existente
 - [x] Deve ser possível adicionar os serviços e o preço
 
 ## REGRAS DE NEGÓCIO

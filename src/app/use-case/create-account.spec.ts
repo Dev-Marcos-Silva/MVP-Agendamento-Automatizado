@@ -4,7 +4,7 @@ import { CreateAccountUseCase } from './create-account'
 let inMemoryAccountRepository: InMemoryAccountRepository
 let sut: CreateAccountUseCase
 
-describe('Create An Account', () => {
+describe('Create An Account.', () => {
     beforeEach(() => {
         inMemoryAccountRepository = new InMemoryAccountRepository()
         sut = new CreateAccountUseCase(inMemoryAccountRepository)

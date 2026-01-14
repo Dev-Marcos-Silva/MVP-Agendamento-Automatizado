@@ -7,7 +7,7 @@ let inMemoryDateTimeRepository: InMemoryDateTimeRepository
 let inMemoryAccountRepository: InMemoryAccountRepository
 let sut: CreateDateTimeUseCase
 
-describe('Create A Date And Time', () => {
+describe('Create A Date And Time.', () => {
   beforeEach(() => {
     inMemoryDateTimeRepository = new InMemoryDateTimeRepository()
     inMemoryAccountRepository = new InMemoryAccountRepository()
