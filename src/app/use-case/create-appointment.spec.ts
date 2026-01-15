@@ -29,12 +29,10 @@ describe('Create An Appointment.', () => {
       price: '25,00'  
     })
 
-    const date = new Date()
-
     await sut.execute({
       client: 'marcos',
       phone: '(00) 98765-4321',
-      date: `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`,
+      date: 'segunda',
       startTime: '10:00',
       endTime: '10:40',
       status: 'scheduled',
@@ -55,13 +53,11 @@ describe('Create An Appointment.', () => {
       price: '25,00'  
     })
 
-    const date = new Date()
-
     await expect(
       sut.execute({
         client: 'marcos',
         phone: '(00) 98765-4321',
-        date: `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`,
+        date: 'segunda',
         startTime: '10:00',
         endTime: '10:40',
         status: 'scheduled',
@@ -82,12 +78,10 @@ describe('Create An Appointment.', () => {
         price: '25,00'  
       })
 
-      const date = new Date()
-
       await inMemoryAppointmentRepository.createAppointment({
         client: 'marcos',
         phone: '(00) 98765-4321',
-        date: `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`,
+        date: 'segunda',
         startTime: '10:00',
         endTime: '10:40',
         status: 'finished',
@@ -99,7 +93,7 @@ describe('Create An Appointment.', () => {
       const result = await sut.execute({
         client: 'marcos',
         phone: '(00) 98765-4321',
-        date: `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`,
+        date: 'segunda',
         startTime: '10:00',
         endTime: '10:40',
         status: 'scheduled',
@@ -121,12 +115,10 @@ describe('Create An Appointment.', () => {
       price: '25,00'  
     })
 
-    const date = new Date()
-
     await inMemoryAppointmentRepository.createAppointment({
       client: 'marcos',
       phone: '(00) 98765-4321',
-      date: `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`,
+      date: 'segunda',
       startTime: '10:00',
       endTime: '10:40',
       status: 'scheduled',
@@ -139,7 +131,7 @@ describe('Create An Appointment.', () => {
       sut.execute({
         client: 'marcos',
         phone: '(00) 98765-4321',
-        date: `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`,
+        date: 'segunda',
         startTime: '10:00',
         endTime: '10:40',
         status: 'scheduled',

@@ -1,6 +1,6 @@
 import type { Datetime } from '@prisma/client'
 import type { AccountRepository } from '../repositories/account-repositories'
-import type { DateTimeRepository } from '../repositories/datatime-repositories'
+import type { DateTimeRepository } from '../repositories/datetime-repositories'
 import { AccountNotFoundError } from './err/account-not-found-error'
 
 interface CreateDateTimeUseCaseRequest {

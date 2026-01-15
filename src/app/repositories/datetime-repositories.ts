@@ -5,6 +5,8 @@ export interface DateTimeRepository {
   createDateTime(data: Prisma.DatetimeCreateInput): Promise<Datetime | null>
 
   findById(dateTimeId: string): Promise<Datetime | null>
+
+  findByMany(): Promise<Datetime[] | null>
   
   updateDate(dateTime: Datetime): Promise<Datetime | null>
 

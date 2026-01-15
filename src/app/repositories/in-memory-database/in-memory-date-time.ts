@@ -1,6 +1,6 @@
 import { randomUUID } from 'node:crypto'
 import type { Datetime, Prisma } from '@prisma/client'
-import type { DateTimeRepository } from '../datatime-repositories'
+import type { DateTimeRepository } from '../datetime-repositories'
 
 export class InMemoryDateTimeRepository implements DateTimeRepository {
   public items: Datetime[] = []
@@ -39,14 +39,21 @@ export class InMemoryDateTimeRepository implements DateTimeRepository {
 
   async findById(dateTimeId: string) {
 
-    const dataTime = this.items.find(item => item.id === dateTimeId)
+    const dateTime = this.items.find(item => item.id === dateTimeId)
 
-    if(!dataTime){
+    if(!dateTime){
       return null
     }
 
-    return dataTime
+    return dateTime
     
+  }
+
+  async findByMany() {
+
+    const dateTime = this.items
+
+    return dateTime
   }
 
   async updateDate(dateTime: Datetime) {

@@ -15,13 +15,11 @@ describe('Get An Appointment.', () => {
 
   it('It should be possible to get an appointment.', async () => {
 
-    const date = new Date()
-
     await inMemoryAppointmentRepository.createAppointment({
         id: 'appointment-1',
         client: 'marcos',
         phone: '(00) 98765-4321',
-        date: `${date.getDate().toLocaleString()}/${date.getMonth() + 1}/${date.getFullYear()}`,
+        date: 'segunda',
         startTime: '10:00',
         endTime: '10:40',
         status: 'scheduled',
@@ -39,13 +37,11 @@ describe('Get An Appointment.', () => {
 
   it('It should not be possible to get an appointment.', async () => {
 
-    const date = new Date()
-
     await inMemoryAppointmentRepository.createAppointment({
         id: 'appointment-1',
         client: 'marcos',
         phone: '(00) 98765-4321',
-        date: `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`,
+        date: 'segunda',
         startTime: '10:00',
         endTime: '10:40',
         status: 'scheduled',

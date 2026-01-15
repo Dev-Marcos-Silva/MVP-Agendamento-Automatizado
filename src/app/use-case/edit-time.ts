@@ -1,5 +1,5 @@
 import type { Datetime } from '@prisma/client'
-import type { DateTimeRepository } from '../repositories/datatime-repositories'
+import type { DateTimeRepository } from '../repositories/datetime-repositories'
 import { DateTimeNotFoundError } from './err/date-time-not-found-error'
 
 interface EditTimeUseCaseRequest {

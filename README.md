@@ -8,7 +8,7 @@ Entidade de dominio: agendamento, serviço, horário, data, conta
 
 ### User Client
 
-- [] Deve ser possível visualizar os horários e datas disponível
+- [x] Deve ser possível visualizar os horários e datas disponível
 - [x] Deve ser possível criar um agendamento com data, hora, serviço, nome e telefone
 - [x] Deve ser possível cancelar o agendamento
 - [x] Deve ser possível visualizar o seu agendamento
@@ -29,7 +29,7 @@ Entidade de dominio: agendamento, serviço, horário, data, conta
 - O sistema não deve permitir criar um agendamento duas vezes no mesmo horário e data
 - O sistema de agendamento deve respeita o horário de funcionamento
 - O sistema só pode criar um agendamento com os horários, datas e serviços já existentes
-- Cada serviço tem um tempo de 40 min
+- Cada serviço tem um tempo de 30 min
 
 ## REQUISITOS NÃO FUNCIONAIS
 
