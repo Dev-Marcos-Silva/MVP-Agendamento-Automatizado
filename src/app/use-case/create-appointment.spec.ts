@@ -2,6 +2,7 @@ import { InMemoryAppointmentRepository } from '../repositories/in-memory-databas
 import { InMemoryServicesRepository } from '../repositories/in-memory-database/in-memory-services'
 import { CreateAppointmentUseCase } from './create-appointment'
 import { AppointmentAlreadyExistError } from './err/appointment-already-exist-error'
+import { InvalidTimeSlotDurationError } from './err/invalid-time-slot-duration-error'
 import { ServiceNotFoundError } from './err/service-not-found-error'
 
 let inMemoryServicesRepository: InMemoryServicesRepository
@@ -34,7 +35,7 @@ describe('Create An Appointment.', () => {
       phone: '(00) 98765-4321',
       date: 'segunda',
       startTime: '10:00',
-      endTime: '10:40',
+      endTime: '10:30',
       status: 'scheduled',
       serviceId: 'service-1'
     })
@@ -59,7 +60,7 @@ describe('Create An Appointment.', () => {
         phone: '(00) 98765-4321',
         date: 'segunda',
         startTime: '10:00',
-        endTime: '10:40',
+        endTime: '10:30',
         status: 'scheduled',
         serviceId: 'service-2'
       }),
@@ -83,7 +84,7 @@ describe('Create An Appointment.', () => {
         phone: '(00) 98765-4321',
         date: 'segunda',
         startTime: '10:00',
-        endTime: '10:40',
+        endTime: '10:30',
         status: 'finished',
         service: {
           connect: {id: 'service-1'}
@@ -95,7 +96,7 @@ describe('Create An Appointment.', () => {
         phone: '(00) 98765-4321',
         date: 'segunda',
         startTime: '10:00',
-        endTime: '10:40',
+        endTime: '10:30',
         status: 'scheduled',
         serviceId: 'service-1'
       })
@@ -120,7 +121,7 @@ describe('Create An Appointment.', () => {
       phone: '(00) 98765-4321',
       date: 'segunda',
       startTime: '10:00',
-      endTime: '10:40',
+      endTime: '10:30',
       status: 'scheduled',
       service: {
         connect: {id: 'service-1'}
@@ -133,10 +134,58 @@ describe('Create An Appointment.', () => {
         phone: '(00) 98765-4321',
         date: 'segunda',
         startTime: '10:00',
-        endTime: '10:40',
+        endTime: '10:30',
         status: 'scheduled',
         serviceId: 'service-1'
       }),
     ).rejects.instanceOf(AppointmentAlreadyExistError)
+  })
+
+  it('It should not be possible to create an appointment with less than 30 minutes.', async () => {
+    await inMemoryServicesRepository.createServices({
+      account: {
+        connect: {id: 'account-1'}
+      },
+      id: 'service-1',
+      name: 'corte de cabelo',
+      description: 'descrição do serviço',
+      price: '25,00'  
+    })
+
+    await expect(
+      sut.execute({
+        client: 'marcos',
+        phone: '(00) 98765-4321',
+        date: 'segunda',
+        startTime: '10:00',
+        endTime: '10:20',
+        status: 'scheduled',
+        serviceId: 'service-1'
+      }),
+    ).rejects.instanceOf(InvalidTimeSlotDurationError)
+  })
+
+  it('It should not be possible to create an appointment longer than 30 minutes.', async () => {
+    await inMemoryServicesRepository.createServices({
+      account: {
+        connect: {id: 'account-1'}
+      },
+      id: 'service-1',
+      name: 'corte de cabelo',
+      description: 'descrição do serviço',
+      price: '25,00'  
+    })
+
+    await expect(
+      sut.execute({
+        client: 'marcos',
+        phone: '(00) 98765-4321',
+        date: 'segunda',
+        startTime: '10:00',
+        endTime: '10:40',
+        status: 'scheduled',
+        serviceId: 'service-1'
+      }),
+    ).rejects.instanceOf(InvalidTimeSlotDurationError)
   })
 })
