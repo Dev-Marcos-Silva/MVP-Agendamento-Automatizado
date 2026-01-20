@@ -1,4 +1,5 @@
 import { fastifyCors } from '@fastify/cors'
+import fastifyJwt from '@fastify/jwt'
 import { fastifySwagger } from '@fastify/swagger'
 import ScalarApiReference from '@scalar/fastify-api-reference'
 import { fastify } from 'fastify'
@@ -8,8 +9,14 @@ import {
   validatorCompiler,
   type ZodTypeProvider,
 } from 'fastify-type-provider-zod'
+import { env } from './env'
+import { accountRouters } from './http/controllers/account/router'
 
 const app = fastify().withTypeProvider<ZodTypeProvider>()
+
+app.register(fastifyJwt, {
+  secret: env.JWT_SECRET,
+})
 
 app.setSerializerCompiler(serializerCompiler)
 app.setValidatorCompiler(validatorCompiler)
@@ -34,6 +41,8 @@ app.register(fastifySwagger, {
 app.register(ScalarApiReference, {
   routePrefix: '/docs',
 })
+
+app.register(accountRouters)
 
 app
   .listen({
