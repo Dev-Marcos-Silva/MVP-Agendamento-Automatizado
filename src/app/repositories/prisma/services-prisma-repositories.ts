@@ -1,4 +1,4 @@
-import type { Prisma } from '@prisma/client'
+import type { Prisma, Services } from '@prisma/client'
 import { prisma } from '@/lib/prisma'
 import type { ServicesRepository } from '../services-repositories'
 
@@ -7,6 +7,23 @@ export class ServicesPrismaRepositories implements ServicesRepository {
     const service = await prisma.services.create({ data })
 
     return service
+  }
+
+  async updateServices(services: Services){
+    const {id, name, description, price} = services
+
+    const newServices = await prisma.services.update({
+      where: {
+        id
+      },
+      data:{
+        name,
+        description,
+        price
+      }
+    })
+
+    return newServices
   }
 
   async findById(serviceId: string) {
