@@ -11,6 +11,7 @@ import {
 } from 'fastify-type-provider-zod'
 import { env } from './env'
 import { accountRouters } from './http/controllers/account/router'
+import { appointmentRouters } from './http/controllers/appointment/router'
 
 const app = fastify().withTypeProvider<ZodTypeProvider>()
 
@@ -43,6 +44,7 @@ app.register(ScalarApiReference, {
 })
 
 app.register(accountRouters)
+app.register(appointmentRouters)
 
 app
   .listen({

@@ -2,6 +2,7 @@ import type { Appointment } from '@prisma/client'
 import { isValid30MinSlot } from '@/utils/is-valid-30-min-slot'
 import type { AppointmentRepository } from '../repositories/appointment-repositories'
 import type { ServicesRepository } from '../repositories/services-repositories'
+import { AppointmentNotCreatedError } from './err/Appointment-not-created-error'
 import { AppointmentAlreadyExistError } from './err/appointment-already-exist-error'
 import { InvalidTimeSlotDurationError } from './err/invalid-time-slot-duration-error'
 import { ServiceNotFoundError } from './err/service-not-found-error'
@@ -17,7 +18,7 @@ interface CreateAppointmentUseCaseRequest {
 }
 
 interface CreateAppointmentUseCaseResponse {
-  appointment: Appointment | null
+  appointment: Appointment
 }
 
 export class CreateAppointmentUseCase {
@@ -35,7 +36,6 @@ export class CreateAppointmentUseCase {
     status,
     serviceId,
   }: CreateAppointmentUseCaseRequest): Promise<CreateAppointmentUseCaseResponse> {
-    
     const service = await this.servicesRepository.findById(serviceId)
 
     if (!service) {
@@ -69,6 +69,10 @@ export class CreateAppointmentUseCase {
         connect: { id: service.id },
       },
     })
+
+    if (!appointment) {
+      throw new AppointmentNotCreatedError()
+    }
 
     return {
       appointment,
