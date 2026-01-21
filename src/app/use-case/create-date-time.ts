@@ -2,6 +2,7 @@ import type { Datetime } from '@prisma/client'
 import type { AccountRepository } from '../repositories/account-repositories'
 import type { DateTimeRepository } from '../repositories/datetime-repositories'
 import { AccountNotFoundError } from './err/account-not-found-error'
+import { DateTimeNotCreatedError } from './err/date-time-not-created-error'
 
 interface CreateDateTimeUseCaseRequest {
   accountId: string
@@ -12,7 +13,7 @@ interface CreateDateTimeUseCaseRequest {
 }
 
 interface CreateDateTimeUseCaseResponse {
-  dateTime: Datetime | null
+  dateTime: Datetime
 }
 
 export class CreateDateTimeUseCase {
@@ -44,6 +45,10 @@ export class CreateDateTimeUseCase {
       endTime,
       dayStatus,
     })
+
+    if(!dateTime){
+      throw new DateTimeNotCreatedError()
+    }
 
     return {
       dateTime,

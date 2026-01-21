@@ -3,9 +3,9 @@ import { createTimes, type TimeSlot } from '@/utils/create-times-day'
 import type { AppointmentRepository } from '../repositories/appointment-repositories'
 import type { DateTimeRepository } from '../repositories/datetime-repositories'
 
-interface GetDateTimeUseCaseResponse {
+export interface GetDateTimeUseCaseResponse {
   dateTime:
-    | {
+    {
         date: string
         status: $Enums.Active
         times: TimeSlot[]

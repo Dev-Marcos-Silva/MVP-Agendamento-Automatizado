@@ -1,7 +1,7 @@
 import type { FastifyPluginCallbackZod } from 'fastify-type-provider-zod'
 import z4 from 'zod/v4'
-import { AppointmentNotCreatedError } from '@/app/use-case/err/Appointment-not-created-error'
 import { AppointmentAlreadyExistError } from '@/app/use-case/err/appointment-already-exist-error'
+import { AppointmentNotCreatedError } from '@/app/use-case/err/appointment-not-created-error'
 import { InvalidTimeSlotDurationError } from '@/app/use-case/err/invalid-time-slot-duration-error'
 import { ServiceNotFoundError } from '@/app/use-case/err/service-not-found-error'
 import { makeCreateAppointmentUseCase } from '@/app/use-case/factories/make-create-appointment-use-case'
