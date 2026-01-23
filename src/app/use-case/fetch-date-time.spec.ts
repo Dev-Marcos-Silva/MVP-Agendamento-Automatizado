@@ -1,22 +1,22 @@
 import { InMemoryAppointmentRepository } from '../repositories/in-memory-database/in-memory-appointment'
 import { InMemoryDateTimeRepository } from '../repositories/in-memory-database/in-memory-date-time'
-import { GetDateTimeUseCase } from './get-date-time'
+import { FetchDateTimeUseCase } from './fetch-date-time'
 
 let inMemoryDateTimeRepository: InMemoryDateTimeRepository
 let inMemoryAppointmentRepository: InMemoryAppointmentRepository
-let sut: GetDateTimeUseCase
+let sut: FetchDateTimeUseCase
 
-describe('Get Date And Time.', () => {
+describe('Get All Date And Time.', () => {
   beforeEach(() => {
     inMemoryDateTimeRepository = new InMemoryDateTimeRepository()
     inMemoryAppointmentRepository = new InMemoryAppointmentRepository()
-    sut = new GetDateTimeUseCase(
+    sut = new FetchDateTimeUseCase(
         inMemoryDateTimeRepository,
         inMemoryAppointmentRepository 
     )
   })
 
-  it('It should be possible to get a date and time.', async () => {
+  it('It should be possible to get all date and time.', async () => {
 
     await inMemoryDateTimeRepository.createDateTime({
         account: {

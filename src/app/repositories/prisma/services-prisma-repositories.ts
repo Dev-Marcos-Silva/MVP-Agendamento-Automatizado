@@ -35,4 +35,12 @@ export class ServicesPrismaRepositories implements ServicesRepository {
 
     return service
   }
+
+  async findByMany() {
+
+    const services = await prisma.services.findMany()
+
+    return services
+    
+  }
 }

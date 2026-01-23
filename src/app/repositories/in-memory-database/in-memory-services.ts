@@ -58,4 +58,12 @@ export class InMemoryServicesRepository implements ServicesRepository {
     return service
     
   }
+
+  async findByMany() {
+
+    const services = this.items
+
+    return services
+    
+  }
 }

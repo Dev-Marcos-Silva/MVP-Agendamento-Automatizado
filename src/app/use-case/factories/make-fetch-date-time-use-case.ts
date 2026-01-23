@@ -1,16 +1,16 @@
 import { AppointmentPrismaRepositories } from '@/app/repositories/prisma/appointment-prisma-repositories'
 import { DateTimePrismaRepositories } from '@/app/repositories/prisma/datetime-prisma-repositories'
-import { GetDateTimeUseCase } from '../get-date-time'
+import { FetchDateTimeUseCase } from '../fetch-date-time'
 
-export function makeGetDateTimeUseCase() {
+export function makeFetchDateTimeUseCase() {
   const dateTimeRepository = new DateTimePrismaRepositories()
 
   const appointmentRepository = new AppointmentPrismaRepositories()
 
-  const getDateTimeUseCase = new GetDateTimeUseCase(
+  const fetchDateTimeUseCase = new FetchDateTimeUseCase(
     dateTimeRepository,
     appointmentRepository,
   )
 
-  return getDateTimeUseCase
+  return fetchDateTimeUseCase
 }

@@ -1,6 +1,6 @@
 import type { FastifyPluginCallbackZod } from 'fastify-type-provider-zod'
 import z4 from 'zod/v4'
-import { makeGetDateTimeUseCase } from '@/app/use-case/factories/make-get-date-time-use-case'
+import { makeFetchDateTimeUseCase } from '@/app/use-case/factories/make-fetch-date-time-use-case'
 
 const TimeSlot = z4.object({
   start: z4.string(),
@@ -9,7 +9,7 @@ const TimeSlot = z4.object({
 
 export const fetchDateTime: FastifyPluginCallbackZod = (app) => {
   app.get(
-    '/datetime/:id',
+    '/datetime/user',
     {
       schema: {
         tags: ['DateTime'],
@@ -31,7 +31,7 @@ export const fetchDateTime: FastifyPluginCallbackZod = (app) => {
     async (_request, reply) => {
       try {
 
-        const getDateTimeUseCase = makeGetDateTimeUseCase()
+        const getDateTimeUseCase = makeFetchDateTimeUseCase()
 
         const { dateTime } = await getDateTimeUseCase.execute()
 

@@ -2,6 +2,7 @@ import type { Services } from '@prisma/client'
 import type { AccountRepository } from '../repositories/account-repositories'
 import type { ServicesRepository } from '../repositories/services-repositories'
 import { AccountNotFoundError } from './err/account-not-found-error'
+import { ServiceNotCreatedError } from './err/service-not-created-error'
 
 interface CreateServicesUseCaseRequest {
   accountId: string
@@ -11,7 +12,7 @@ interface CreateServicesUseCaseRequest {
 }
 
 interface CreateServicesUseCaseResponse {
-  services: Services | null
+  services: Services
 }
 
 export class CreateServicesUseCase {
@@ -41,6 +42,10 @@ export class CreateServicesUseCase {
       description,
       price,
     })
+
+    if(!services){
+      throw new ServiceNotCreatedError()
+    }
 
     return {
       services,

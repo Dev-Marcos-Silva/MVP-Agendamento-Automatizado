@@ -7,4 +7,6 @@ export interface ServicesRepository {
   updateServices(services: Services): Promise<Services | null>
 
   findById(serviceId: string): Promise<Services | null>
+
+  findByMany(): Promise<Services[] | null>
 }

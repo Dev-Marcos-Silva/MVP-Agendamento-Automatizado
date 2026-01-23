@@ -1,6 +1,6 @@
 import type { FastifyInstance } from 'fastify'
 import { createDateTime } from './create'
-import { fetchDateTime } from './datetime'
+import { fetchDateTime } from './datetimes'
 import { updateDate } from './updateDate'
 import { updateTime } from './updateTime'
 

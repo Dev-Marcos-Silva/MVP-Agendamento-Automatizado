@@ -3,23 +3,22 @@ import { createTimes, type TimeSlot } from '@/utils/create-times-day'
 import type { AppointmentRepository } from '../repositories/appointment-repositories'
 import type { DateTimeRepository } from '../repositories/datetime-repositories'
 
-export interface GetDateTimeUseCaseResponse {
+export interface FetchDateTimeUseCaseResponse {
   dateTime:
     {
-        date: string
-        status: $Enums.Active
-        times: TimeSlot[]
-      }[]
-    | null
+      date: string
+      status: $Enums.Active
+      times: TimeSlot[]
+    }[] | null
 }
 
-export class GetDateTimeUseCase {
+export class FetchDateTimeUseCase {
   constructor(
     private dateTimeRepository: DateTimeRepository,
     private appointmentRepository: AppointmentRepository,
   ) {}
 
-  async execute(): Promise<GetDateTimeUseCaseResponse> {
+  async execute(): Promise<FetchDateTimeUseCaseResponse> {
     const dateTime = await this.dateTimeRepository.findByMany()
 
     if (!dateTime) {
