@@ -9,18 +9,18 @@ export class ServicesPrismaRepositories implements ServicesRepository {
     return service
   }
 
-  async updateServices(services: Services){
-    const {id, name, description, price} = services
+  async updateServices(services: Services) {
+    const { id, name, description, price } = services
 
     const newServices = await prisma.services.update({
       where: {
-        id
+        id,
       },
-      data:{
+      data: {
         name,
         description,
-        price
-      }
+        price,
+      },
     })
 
     return newServices
@@ -37,10 +37,8 @@ export class ServicesPrismaRepositories implements ServicesRepository {
   }
 
   async findByMany() {
-
     const services = await prisma.services.findMany()
 
     return services
-    
   }
 }

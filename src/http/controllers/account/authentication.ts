@@ -16,6 +16,7 @@ export const authenticationAccout: FastifyPluginCallbackZod = (app) => {
         }),
         response: {
           200: z4.object({
+            accountId: z4.string(),
             token: z4.string(),
           }),
           401: z4.object({
@@ -49,6 +50,7 @@ export const authenticationAccout: FastifyPluginCallbackZod = (app) => {
         )
 
         return reply.status(200).send({
+          accountId: account.id,
           token,
         })
       } catch (error) {

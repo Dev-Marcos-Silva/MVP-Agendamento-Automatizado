@@ -1,12 +1,10 @@
-import { DateTimePrismaRepositories } from "@/app/repositories/prisma/datetime-prisma-repositories"
-import { EditTimeUseCase } from "../edit-time"
+import { DateTimePrismaRepositories } from '@/app/repositories/prisma/datetime-prisma-repositories'
+import { EditTimeUseCase } from '../edit-time'
 
-export function makeEditTimeUseCase(){
+export function makeEditTimeUseCase() {
+  const dateTimeRepository = new DateTimePrismaRepositories()
 
-    const dateTimeRepository = new DateTimePrismaRepositories()
-   
-    const editTimeUseCase = new EditTimeUseCase(dateTimeRepository)
-   
-    return editTimeUseCase
+  const editTimeUseCase = new EditTimeUseCase(dateTimeRepository)
 
+  return editTimeUseCase
 }

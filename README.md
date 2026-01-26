@@ -9,6 +9,7 @@ Entidade de dominio: agendamento, serviço, horário, data, conta
 ### User Client
 
 - [x] Deve ser possível visualizar os horários e datas disponível
+- [x] Deve ser possível visualizar os serviços disponível
 - [x] Deve ser possível criar um agendamento com data, hora, serviço, nome e telefone
 - [x] Deve ser possível cancelar o agendamento
 - [x] Deve ser possível visualizar o seu agendamento
@@ -23,6 +24,7 @@ Entidade de dominio: agendamento, serviço, horário, data, conta
 - [x] Deve ser possível finalizar o agendamento
 - [x] Deve ser possível modificar os horários de um dia já existente
 - [x] Deve ser possível adicionar os serviços e o preço
+- [x] Deve ser possível modificar os serviços (nome, descrição e preço) já existente
 
 ## REGRAS DE NEGÓCIO
 

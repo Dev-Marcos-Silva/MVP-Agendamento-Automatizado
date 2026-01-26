@@ -18,9 +18,8 @@ export class EditTimeUseCase {
   async execute({
     dateTimeId,
     startTime,
-    endTime
+    endTime,
   }: EditTimeUseCaseRequest): Promise<EditTimeUseCaseResponse> {
-
     const dateTime = await this.dateTimeRepository.findById(dateTimeId)
 
     if (!dateTime) {

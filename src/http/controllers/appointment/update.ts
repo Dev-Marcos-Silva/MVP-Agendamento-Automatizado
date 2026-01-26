@@ -2,11 +2,13 @@ import type { FastifyPluginCallbackZod } from 'fastify-type-provider-zod'
 import z4 from 'zod/v4'
 import { AppointmentNotFoundError } from '@/app/use-case/err/appointment-not-found-error'
 import { makeEditAppointmentUseCase } from '@/app/use-case/factories/make-edit-appointment-use-case'
+import { jwtVerify } from '@/http/middlewares/verify-jwt'
 
 export const updateAppointment: FastifyPluginCallbackZod = (app) => {
   app.patch(
     '/appointment/update',
     {
+      preHandler: [jwtVerify],
       schema: {
         tags: ['Appointment'],
         summary: 'Update an appointment',

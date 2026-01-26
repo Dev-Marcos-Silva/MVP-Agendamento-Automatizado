@@ -1,9 +1,11 @@
 import type { Appointment } from '@prisma/client'
 import { isValid30MinSlot } from '@/utils/is-valid-30-min-slot'
 import type { AppointmentRepository } from '../repositories/appointment-repositories'
+import type { DateTimeRepository } from '../repositories/datetime-repositories'
 import type { ServicesRepository } from '../repositories/services-repositories'
 import { AppointmentAlreadyExistError } from './err/appointment-already-exist-error'
 import { AppointmentNotCreatedError } from './err/appointment-not-created-error'
+import { DateTimeNotFoundError } from './err/date-time-not-found-error'
 import { InvalidTimeSlotDurationError } from './err/invalid-time-slot-duration-error'
 import { ServiceNotFoundError } from './err/service-not-found-error'
 
@@ -25,6 +27,7 @@ export class CreateAppointmentUseCase {
   constructor(
     private appointmentRepository: AppointmentRepository,
     private servicesRepository: ServicesRepository,
+    private dateTimeRepository: DateTimeRepository,
   ) {}
 
   async execute({
@@ -40,6 +43,12 @@ export class CreateAppointmentUseCase {
 
     if (!service) {
       throw new ServiceNotFoundError()
+    }
+
+    const dayExist = await this.dateTimeRepository.findByDay(date)
+
+    if (!dayExist) {
+      throw new DateTimeNotFoundError()
     }
 
     const existAppointment = await this.appointmentRepository.findAppointment(

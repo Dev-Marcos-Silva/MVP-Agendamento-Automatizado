@@ -2,11 +2,13 @@ import type { FastifyPluginCallbackZod } from 'fastify-type-provider-zod'
 import z4 from 'zod/v4'
 import { DateTimeNotFoundError } from '@/app/use-case/err/date-time-not-found-error'
 import { makeEditTimeUseCase } from '@/app/use-case/factories/make-edit-time-use-case'
+import { jwtVerify } from '@/http/middlewares/verify-jwt'
 
 export const updateTime: FastifyPluginCallbackZod = (app) => {
   app.patch(
     '/datetime/time',
     {
+      preHandler: [jwtVerify],
       schema: {
         tags: ['DateTime'],
         summary: 'Update time',

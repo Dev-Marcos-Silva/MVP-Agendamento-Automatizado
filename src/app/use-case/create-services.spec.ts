@@ -29,7 +29,7 @@ describe('Create A Service.', () => {
       accountId: 'account-1',
       name: 'corte de cabelo',
       description: 'descrição do serviço',
-      price: '25,00'
+      price: '25,00',
     })
 
     expect(inMemoryServicesRepository.items[0].accountId).toEqual('account-1')
@@ -48,7 +48,7 @@ describe('Create A Service.', () => {
         accountId: 'account-2',
         name: 'corte de cabelo',
         description: 'descrição do serviço',
-        price: '25,00'
+        price: '25,00',
       }),
     ).rejects.instanceOf(AccountNotFoundError)
   })

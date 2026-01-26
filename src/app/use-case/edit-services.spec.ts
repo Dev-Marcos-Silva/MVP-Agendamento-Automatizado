@@ -8,27 +8,25 @@ let sut: EditServicesUseCase
 describe('Update A Service.', () => {
   beforeEach(() => {
     inMemoryServicesRepository = new InMemoryServicesRepository()
-    sut = new EditServicesUseCase(
-      inMemoryServicesRepository,
-    )
+    sut = new EditServicesUseCase(inMemoryServicesRepository)
   })
 
   it('It should be possible to update a service.', async () => {
     await inMemoryServicesRepository.createServices({
       account: {
-        connect: {id: 'account-1'}
+        connect: { id: 'account-1' },
       },
       id: 'service-1',
       name: 'corte de cabelo',
       description: 'descrição do serviço',
-      price: '25,00'  
+      price: '25,00',
     })
 
     const result = await sut.execute({
-        servicesId: 'service-1',
-        name: 'fazer a barba',
-        description: 'descrição do serviço',
-        price: '20,00'
+      servicesId: 'service-1',
+      name: 'fazer a barba',
+      description: 'descrição do serviço',
+      price: '20,00',
     })
 
     expect(result.newServices.id).toEqual('service-1')
@@ -39,12 +37,12 @@ describe('Update A Service.', () => {
   it('It should not be possible to update a service.', async () => {
     await inMemoryServicesRepository.createServices({
       account: {
-        connect: {id: 'account-1'}
+        connect: { id: 'account-1' },
       },
       id: 'service-1',
       name: 'corte de cabelo',
       description: 'descrição do serviço',
-      price: '25,00'  
+      price: '25,00',
     })
 
     await expect(
@@ -52,7 +50,7 @@ describe('Update A Service.', () => {
         servicesId: 'account-2',
         name: 'fazer a barba',
         description: 'descrição do serviço',
-        price: '20,00'
+        price: '20,00',
       }),
     ).rejects.instanceOf(ServiceNotFoundError)
   })

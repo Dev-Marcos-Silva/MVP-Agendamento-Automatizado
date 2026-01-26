@@ -11,12 +11,16 @@ export const fetchServices: FastifyPluginCallbackZod = (app) => {
         summary: 'Fetch many services',
         response: {
           200: z4.object({
-            services: z4.array(z4.object({
-              id: z4.string(),
-              name: z4.string(),
-              description: z4.string(),
-              price: z4.string(),
-            })).nullable(),
+            services: z4
+              .array(
+                z4.object({
+                  id: z4.string(),
+                  name: z4.string(),
+                  description: z4.string(),
+                  price: z4.string(),
+                }),
+              )
+              .nullable(),
           }),
           500: z4.object({
             message: z4.string(),
@@ -26,16 +30,14 @@ export const fetchServices: FastifyPluginCallbackZod = (app) => {
     },
     async (_request, reply) => {
       try {
-
         const getServicesUseCase = makeFetchServicesUseCase()
 
         const { services } = await getServicesUseCase.execute()
 
         return reply.status(200).send({
-          services: services
+          services: services,
         })
       } catch (_error) {
-
         return reply.status(500).send({
           message: 'Internal server error',
         })

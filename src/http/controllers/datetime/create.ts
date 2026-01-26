@@ -1,13 +1,16 @@
 import type { FastifyPluginCallbackZod } from 'fastify-type-provider-zod'
 import z4 from 'zod/v4'
 import { AccountNotFoundError } from '@/app/use-case/err/account-not-found-error'
+import { DateTimeAlreadyExistError } from '@/app/use-case/err/date-time-already-exist-error'
 import { DateTimeNotCreatedError } from '@/app/use-case/err/date-time-not-created-error'
 import { makeCreateDateTimeUseCase } from '@/app/use-case/factories/make-create-date-time-use-case'
+import { jwtVerify } from '@/http/middlewares/verify-jwt'
 
 export const createDateTime: FastifyPluginCallbackZod = (app) => {
   app.post(
     '/datetime',
     {
+      preHandler: [jwtVerify],
       schema: {
         tags: ['DateTime'],
         summary: 'Create new datetime',
@@ -61,6 +64,12 @@ export const createDateTime: FastifyPluginCallbackZod = (app) => {
       } catch (error) {
         if (error instanceof AccountNotFoundError) {
           return reply.status(404).send({
+            message: error.message,
+          })
+        }
+
+        if (error instanceof DateTimeAlreadyExistError) {
+          return reply.status(409).send({
             message: error.message,
           })
         }

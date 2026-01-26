@@ -16,7 +16,6 @@ export class GetAppointmentUseCase {
   async execute({
     appointmentId,
   }: GetAppointmentUseCaseRequest): Promise<GetAppointmentUseCaseResponse> {
-
     const appointment = await this.appointmentRepository.findById(appointmentId)
 
     if (!appointment) {
@@ -24,7 +23,7 @@ export class GetAppointmentUseCase {
     }
 
     return {
-      appointment
+      appointment,
     }
   }
 }

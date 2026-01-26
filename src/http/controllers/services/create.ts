@@ -3,11 +3,13 @@ import z4 from 'zod/v4'
 import { AccountNotFoundError } from '@/app/use-case/err/account-not-found-error'
 import { ServiceNotCreatedError } from '@/app/use-case/err/service-not-created-error'
 import { makeCreateServicesUseCase } from '@/app/use-case/factories/make-create-services-use-case'
+import { jwtVerify } from '@/http/middlewares/verify-jwt'
 
 export const createServices: FastifyPluginCallbackZod = (app) => {
   app.post(
     '/services',
     {
+      preHandler: [jwtVerify],
       schema: {
         tags: ['Services'],
         summary: 'Create new services',

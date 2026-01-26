@@ -37,9 +37,7 @@ export class AppointmentPrismaRepositories implements AppointmentRepository {
     return appointments
   }
 
-  async updateAppointment(
-    appointment: Appointment,
-  ) {
+  async updateAppointment(appointment: Appointment) {
     const { id, status } = appointment
 
     const newAppointment = await prisma.appointment.update({

@@ -8,27 +8,24 @@ let sut: EditDateUseCase
 describe('Update A Date.', () => {
   beforeEach(() => {
     inMemoryDateTimeRepository = new InMemoryDateTimeRepository()
-    sut = new EditDateUseCase(
-      inMemoryDateTimeRepository
-    )
+    sut = new EditDateUseCase(inMemoryDateTimeRepository)
   })
 
   it('It should be possible to update a date.', async () => {
-
     await inMemoryDateTimeRepository.createDateTime({
-        id: 'dateTime-1',
-        day: 'segunda',
-        startTime: '08:00',
-        endTime: '19:00',
-        dayStatus: 'true',
-        account: {
-            connect: { id : 'account-1'}
-        }
+      id: 'dateTime-1',
+      day: 'segunda',
+      startTime: '08:00',
+      endTime: '19:00',
+      dayStatus: 'true',
+      account: {
+        connect: { id: 'account-1' },
+      },
     })
 
     const result = await sut.execute({
-        dateTimeId: 'dateTime-1',
-        dayStatus: 'false'
+      dateTimeId: 'dateTime-1',
+      dayStatus: 'false',
     })
 
     expect(result.newDateTime.dayStatus).toEqual('false')
@@ -36,23 +33,22 @@ describe('Update A Date.', () => {
   })
 
   it('It should not be possible to update a date.', async () => {
-
     await inMemoryDateTimeRepository.createDateTime({
-        id: 'dateTime-1',
-        day: 'segunda',
-        startTime: '08:00',
-        endTime: '19:00',
-        dayStatus: 'true',
-        account: {
-            connect: { id : 'account-1'}
-        }
+      id: 'dateTime-1',
+      day: 'segunda',
+      startTime: '08:00',
+      endTime: '19:00',
+      dayStatus: 'true',
+      account: {
+        connect: { id: 'account-1' },
+      },
     })
 
     await expect(
       sut.execute({
         dateTimeId: 'dateTime-2',
-        dayStatus: 'false'
-      })
+        dayStatus: 'false',
+      }),
     ).rejects.instanceOf(DateTimeNotFoundError)
   })
 })

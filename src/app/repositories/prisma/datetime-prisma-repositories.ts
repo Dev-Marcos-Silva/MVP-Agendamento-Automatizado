@@ -40,6 +40,16 @@ export class DateTimePrismaRepositories implements DateTimeRepository {
     return newDateTime
   }
 
+  async findByDay(day: string) {
+    const dateTime = await prisma.datetime.findUnique({
+      where: {
+        day,
+      },
+    })
+
+    return dateTime
+  }
+
   async updateTime(dateTime: Datetime) {
     const { id, startTime, endTime } = dateTime
 

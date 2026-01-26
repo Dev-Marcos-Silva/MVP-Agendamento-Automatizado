@@ -11,7 +11,7 @@ export const getAppointment: FastifyPluginCallbackZod = (app) => {
         tags: ['Appointment'],
         summary: 'Get an appointment',
         params: z4.object({
-          appointmentId: z4.string(),
+          id: z4.string(),
         }),
         response: {
           200: z4.object({
@@ -37,14 +37,16 @@ export const getAppointment: FastifyPluginCallbackZod = (app) => {
     },
     async (request, reply) => {
       try {
-        const { appointmentId } = request.params
+        const { id } = request.params
 
         const getAppointmentUseCase = makeGetAppointmentUseCase()
 
-        const { appointment } = await getAppointmentUseCase.execute({appointmentId})
+        const { appointment } = await getAppointmentUseCase.execute({
+          appointmentId: id,
+        })
 
         return reply.status(200).send({
-          appointment: appointment
+          appointment: appointment,
         })
       } catch (error) {
         if (error instanceof AppointmentNotFoundError) {

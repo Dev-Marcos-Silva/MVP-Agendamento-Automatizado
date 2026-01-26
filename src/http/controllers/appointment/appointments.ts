@@ -2,16 +2,18 @@ import type { FastifyPluginCallbackZod } from 'fastify-type-provider-zod'
 import z4 from 'zod/v4'
 import { AccountNotFoundError } from '@/app/use-case/err/account-not-found-error'
 import { makeFetchAppointmentUseCase } from '@/app/use-case/factories/make-fetch-appointment-use-case'
+import { jwtVerify } from '@/http/middlewares/verify-jwt'
 
 export const fetchAppointment: FastifyPluginCallbackZod = (app) => {
   app.get(
     '/appointment/account/:id',
     {
+      preHandler: [jwtVerify],
       schema: {
         tags: ['Appointment'],
         summary: 'Fetch many appointment',
         params: z4.object({
-          accountId: z4.string(),
+          id: z4.string(),
         }),
         response: {
           200: z4.object({
@@ -25,7 +27,8 @@ export const fetchAppointment: FastifyPluginCallbackZod = (app) => {
                 endTime: z4.string(),
                 status: z4.enum(['scheduled', 'cancelled', 'finished']),
                 serviceId: z4.string(),
-            })),
+              }),
+            ),
           }),
           404: z4.object({
             message: z4.string(),
@@ -38,14 +41,16 @@ export const fetchAppointment: FastifyPluginCallbackZod = (app) => {
     },
     async (request, reply) => {
       try {
-        const { accountId } = request.params
+        const { id } = request.params
 
         const fetchAppointmentUseCase = makeFetchAppointmentUseCase()
 
-        const { appointments } = await fetchAppointmentUseCase.execute({accountId})
+        const { appointments } = await fetchAppointmentUseCase.execute({
+          accountId: id,
+        })
 
         return reply.status(200).send({
-          appointments: appointments
+          appointments: appointments,
         })
       } catch (error) {
         if (error instanceof AccountNotFoundError) {

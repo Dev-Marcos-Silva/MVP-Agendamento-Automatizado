@@ -1,33 +1,49 @@
 import { InMemoryAppointmentRepository } from '../repositories/in-memory-database/in-memory-appointment'
+import { InMemoryDateTimeRepository } from '../repositories/in-memory-database/in-memory-date-time'
 import { InMemoryServicesRepository } from '../repositories/in-memory-database/in-memory-services'
 import { CreateAppointmentUseCase } from './create-appointment'
 import { AppointmentAlreadyExistError } from './err/appointment-already-exist-error'
+import { DateTimeNotFoundError } from './err/date-time-not-found-error'
 import { InvalidTimeSlotDurationError } from './err/invalid-time-slot-duration-error'
 import { ServiceNotFoundError } from './err/service-not-found-error'
 
 let inMemoryServicesRepository: InMemoryServicesRepository
 let inMemoryAppointmentRepository: InMemoryAppointmentRepository
+let inMemoryDateTimeRepository: InMemoryDateTimeRepository
+
 let sut: CreateAppointmentUseCase
 
 describe('Create An Appointment.', () => {
   beforeEach(() => {
     inMemoryAppointmentRepository = new InMemoryAppointmentRepository()
     inMemoryServicesRepository = new InMemoryServicesRepository()
+    inMemoryDateTimeRepository = new InMemoryDateTimeRepository()
     sut = new CreateAppointmentUseCase(
       inMemoryAppointmentRepository,
       inMemoryServicesRepository,
+      inMemoryDateTimeRepository,
     )
   })
 
   it('It should be possible to create an appointment.', async () => {
     await inMemoryServicesRepository.createServices({
       account: {
-        connect: {id: 'account-1'}
+        connect: { id: 'account-1' },
       },
       id: 'service-1',
       name: 'corte de cabelo',
       description: 'descrição do serviço',
-      price: '25,00'  
+      price: '25,00',
+    })
+
+    await inMemoryDateTimeRepository.createDateTime({
+      account: {
+        connect: { id: 'account-1' },
+      },
+      day: 'segunda',
+      startTime: '09:00',
+      endTime: '16:00',
+      dayStatus: 'true',
     })
 
     await sut.execute({
@@ -37,21 +53,33 @@ describe('Create An Appointment.', () => {
       startTime: '10:00',
       endTime: '10:30',
       status: 'scheduled',
-      serviceId: 'service-1'
+      serviceId: 'service-1',
     })
 
-    expect(inMemoryAppointmentRepository.items[0].serviceId).toEqual('service-1')
+    expect(inMemoryAppointmentRepository.items[0].serviceId).toEqual(
+      'service-1',
+    )
   })
 
   it('It should not be possible to create an appointment.', async () => {
     await inMemoryServicesRepository.createServices({
       account: {
-        connect: {id: 'account-1'}
+        connect: { id: 'account-1' },
       },
       id: 'service-1',
       name: 'corte de cabelo',
       description: 'descrição do serviço',
-      price: '25,00'  
+      price: '25,00',
+    })
+
+    await inMemoryDateTimeRepository.createDateTime({
+      account: {
+        connect: { id: 'account-1' },
+      },
+      day: 'segunda',
+      startTime: '09:00',
+      endTime: '16:00',
+      dayStatus: 'true',
     })
 
     await expect(
@@ -62,58 +90,76 @@ describe('Create An Appointment.', () => {
         startTime: '10:00',
         endTime: '10:30',
         status: 'scheduled',
-        serviceId: 'service-2'
+        serviceId: 'service-2',
       }),
     ).rejects.instanceOf(ServiceNotFoundError)
   })
 
-  it('It should be possible to create a new appointment for the same date and time if the previous appointment has already been canceled or completed.',
-     async () => {
-      await inMemoryServicesRepository.createServices({
-        account: {
-          connect: {id: 'account-1'}
-        },
-        id: 'service-1',
-        name: 'corte de cabelo',
-        description: 'descrição do serviço',
-        price: '25,00'  
-      })
+  it('It should be possible to create a new appointment for the same date and time if the previous appointment has already been canceled or completed.', async () => {
+    await inMemoryServicesRepository.createServices({
+      account: {
+        connect: { id: 'account-1' },
+      },
+      id: 'service-1',
+      name: 'corte de cabelo',
+      description: 'descrição do serviço',
+      price: '25,00',
+    })
 
-      await inMemoryAppointmentRepository.createAppointment({
-        client: 'marcos',
-        phone: '(00) 98765-4321',
-        date: 'segunda',
-        startTime: '10:00',
-        endTime: '10:30',
-        status: 'finished',
-        service: {
-          connect: {id: 'service-1'}
-        }
-      })
+    await inMemoryDateTimeRepository.createDateTime({
+      account: {
+        connect: { id: 'account-1' },
+      },
+      day: 'segunda',
+      startTime: '09:00',
+      endTime: '16:00',
+      dayStatus: 'true',
+    })
 
-      const result = await sut.execute({
-        client: 'marcos',
-        phone: '(00) 98765-4321',
-        date: 'segunda',
-        startTime: '10:00',
-        endTime: '10:30',
-        status: 'scheduled',
-        serviceId: 'service-1'
-      })
+    await inMemoryAppointmentRepository.createAppointment({
+      client: 'marcos',
+      phone: '(00) 98765-4321',
+      date: 'segunda',
+      startTime: '10:00',
+      endTime: '10:30',
+      status: 'finished',
+      service: {
+        connect: { id: 'service-1' },
+      },
+    })
 
-      expect(result.appointment?.status).toEqual('scheduled')
-     
+    const result = await sut.execute({
+      client: 'marcos',
+      phone: '(00) 98765-4321',
+      date: 'segunda',
+      startTime: '10:00',
+      endTime: '10:30',
+      status: 'scheduled',
+      serviceId: 'service-1',
+    })
+
+    expect(result.appointment?.status).toEqual('scheduled')
   })
 
   it('It should not be possible to create two appointments on the same date and time.', async () => {
     await inMemoryServicesRepository.createServices({
       account: {
-        connect: {id: 'account-1'}
+        connect: { id: 'account-1' },
       },
       id: 'service-1',
       name: 'corte de cabelo',
       description: 'descrição do serviço',
-      price: '25,00'  
+      price: '25,00',
+    })
+
+    await inMemoryDateTimeRepository.createDateTime({
+      account: {
+        connect: { id: 'account-1' },
+      },
+      day: 'segunda',
+      startTime: '09:00',
+      endTime: '16:00',
+      dayStatus: 'true',
     })
 
     await inMemoryAppointmentRepository.createAppointment({
@@ -124,8 +170,8 @@ describe('Create An Appointment.', () => {
       endTime: '10:30',
       status: 'scheduled',
       service: {
-        connect: {id: 'service-1'}
-      }
+        connect: { id: 'service-1' },
+      },
     })
 
     await expect(
@@ -136,7 +182,7 @@ describe('Create An Appointment.', () => {
         startTime: '10:00',
         endTime: '10:30',
         status: 'scheduled',
-        serviceId: 'service-1'
+        serviceId: 'service-1',
       }),
     ).rejects.instanceOf(AppointmentAlreadyExistError)
   })
@@ -144,12 +190,22 @@ describe('Create An Appointment.', () => {
   it('It should not be possible to create an appointment with less than 30 minutes.', async () => {
     await inMemoryServicesRepository.createServices({
       account: {
-        connect: {id: 'account-1'}
+        connect: { id: 'account-1' },
       },
       id: 'service-1',
       name: 'corte de cabelo',
       description: 'descrição do serviço',
-      price: '25,00'  
+      price: '25,00',
+    })
+
+    await inMemoryDateTimeRepository.createDateTime({
+      account: {
+        connect: { id: 'account-1' },
+      },
+      day: 'segunda',
+      startTime: '09:00',
+      endTime: '16:00',
+      dayStatus: 'true',
     })
 
     await expect(
@@ -160,7 +216,7 @@ describe('Create An Appointment.', () => {
         startTime: '10:00',
         endTime: '10:20',
         status: 'scheduled',
-        serviceId: 'service-1'
+        serviceId: 'service-1',
       }),
     ).rejects.instanceOf(InvalidTimeSlotDurationError)
   })
@@ -168,12 +224,22 @@ describe('Create An Appointment.', () => {
   it('It should not be possible to create an appointment longer than 30 minutes.', async () => {
     await inMemoryServicesRepository.createServices({
       account: {
-        connect: {id: 'account-1'}
+        connect: { id: 'account-1' },
       },
       id: 'service-1',
       name: 'corte de cabelo',
       description: 'descrição do serviço',
-      price: '25,00'  
+      price: '25,00',
+    })
+
+    await inMemoryDateTimeRepository.createDateTime({
+      account: {
+        connect: { id: 'account-1' },
+      },
+      day: 'segunda',
+      startTime: '09:00',
+      endTime: '16:00',
+      dayStatus: 'true',
     })
 
     await expect(
@@ -184,8 +250,42 @@ describe('Create An Appointment.', () => {
         startTime: '10:00',
         endTime: '10:40',
         status: 'scheduled',
-        serviceId: 'service-1'
+        serviceId: 'service-1',
       }),
     ).rejects.instanceOf(InvalidTimeSlotDurationError)
+  })
+
+  it('It should not be possible to create an appointment on a day that is not on the schedule.', async () => {
+    await inMemoryServicesRepository.createServices({
+      account: {
+        connect: { id: 'account-1' },
+      },
+      id: 'service-1',
+      name: 'corte de cabelo',
+      description: 'descrição do serviço',
+      price: '25,00',
+    })
+
+    await inMemoryDateTimeRepository.createDateTime({
+      account: {
+        connect: { id: 'account-1' },
+      },
+      day: 'segunda',
+      startTime: '09:00',
+      endTime: '16:00',
+      dayStatus: 'true',
+    })
+
+    await expect(
+      sut.execute({
+        client: 'marcos',
+        phone: '(00) 98765-4321',
+        date: 'terça',
+        startTime: '10:00',
+        endTime: '10:30',
+        status: 'scheduled',
+        serviceId: 'service-1',
+      }),
+    ).rejects.instanceOf(DateTimeNotFoundError)
   })
 })

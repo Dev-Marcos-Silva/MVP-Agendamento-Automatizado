@@ -23,11 +23,6 @@
       "@/*": ["./src/*"]
     }
   },
-  
-  "include": [
-    "src",
-    "**/*.spec.ts",
-    "**/*.test.ts",
-    "vitest.config.ts"
-  ]
+
+  "include": ["src", "**/*.spec.ts", "**/*.test.ts", "vitest.config.ts"]
 }

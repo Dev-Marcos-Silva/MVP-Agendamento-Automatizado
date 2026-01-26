@@ -2,11 +2,13 @@ import type { FastifyPluginCallbackZod } from 'fastify-type-provider-zod'
 import z4 from 'zod/v4'
 import { ServiceNotFoundError } from '@/app/use-case/err/service-not-found-error'
 import { makeEditServicesUseCase } from '@/app/use-case/factories/make-edit-services-use-case'
+import { jwtVerify } from '@/http/middlewares/verify-jwt'
 
 export const updateServices: FastifyPluginCallbackZod = (app) => {
   app.patch(
     '/services',
     {
+      preHandler: [jwtVerify],
       schema: {
         tags: ['Services'],
         summary: 'Update services',

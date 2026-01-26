@@ -42,55 +42,49 @@ export class InMemoryAppointmentRepository implements AppointmentRepository {
   }
 
   async findById(appointmentId: string) {
+    const appointment = this.items.find((item) => item.id === appointmentId)
 
-    const appointment = this.items.find(item => item.id === appointmentId)
-
-    if(!appointment){
+    if (!appointment) {
       return null
     }
 
     return appointment
-    
   }
 
   async findByMany() {
-
     const appointments = this.items
-    
+
     return appointments
-    
   }
 
   async findAppointment(date: string, startTime: string, endTime: string) {
-
-    const appointment = this.items.find(item => 
-      item.date === date && 
-      item.startTime === startTime && 
-      item.endTime === endTime
+    const appointment = this.items.find(
+      (item) =>
+        item.date === date &&
+        item.startTime === startTime &&
+        item.endTime === endTime,
     )
 
-    if(!appointment){
+    if (!appointment) {
       return null
     }
 
     return appointment
   }
 
-
   async updateAppointment(appointment: Appointment) {
-
-    const appointmentIndex = this.items.findIndex(item => item.id === appointment.id)
+    const appointmentIndex = this.items.findIndex(
+      (item) => item.id === appointment.id,
+    )
 
     this.items[appointmentIndex] = appointment
 
-    const newAppointment = this.items.find(item => item.id === appointment.id)
+    const newAppointment = this.items.find((item) => item.id === appointment.id)
 
-    if(!newAppointment){
+    if (!newAppointment) {
       return null
     }
 
     return newAppointment
-    
-  } 
+  }
 }
-

@@ -2,12 +2,13 @@ import type { ServicesRepository } from '../repositories/services-repositories'
 
 export interface FetchServicesUseCaseResponse {
   services:
-    {
-      id: string
-      name: string
-      description: string
-      price: string
-    }[] | null
+    | {
+        id: string
+        name: string
+        description: string
+        price: string
+      }[]
+    | null
 }
 
 export class FetchServicesUseCase {

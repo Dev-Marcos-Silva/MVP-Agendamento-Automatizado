@@ -11,15 +11,10 @@ interface CreateAccountUseCaseRequest {
 export class CreateAccountUseCase {
   constructor(private accountRepository: AccountRepository) {}
 
-  async execute({
-    name,
-    email,
-    password,
-  }: CreateAccountUseCaseRequest){
-
+  async execute({ name, email, password }: CreateAccountUseCaseRequest) {
     const account = await this.accountRepository.findByEmail(email)
 
-    if(account){
+    if (account) {
       throw new AccountAlreadyExistError()
     }
 

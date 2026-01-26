@@ -16,11 +16,16 @@ export const fetchDateTime: FastifyPluginCallbackZod = (app) => {
         summary: 'Fetch many datetimes',
         response: {
           200: z4.object({
-            dateTime: z4.array(z4.object({
-              date: z4.string(),
-              status: z4.enum(['true', 'false']),
-              times: z4.array(TimeSlot),
-            })).nullable(),
+            dateTime: z4
+              .array(
+                z4.object({
+                  id: z4.string(),
+                  date: z4.string(),
+                  status: z4.enum(['true', 'false']),
+                  times: z4.array(TimeSlot),
+                }),
+              )
+              .nullable(),
           }),
           500: z4.object({
             message: z4.string(),
@@ -30,16 +35,14 @@ export const fetchDateTime: FastifyPluginCallbackZod = (app) => {
     },
     async (_request, reply) => {
       try {
-
         const getDateTimeUseCase = makeFetchDateTimeUseCase()
 
         const { dateTime } = await getDateTimeUseCase.execute()
 
         return reply.status(200).send({
-          dateTime: dateTime
+          dateTime: dateTime,
         })
       } catch (_error) {
-
         return reply.status(500).send({
           message: 'Internal server error',
         })

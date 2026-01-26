@@ -13,6 +13,7 @@ import { env } from './env'
 import { accountRouters } from './http/controllers/account/router'
 import { appointmentRouters } from './http/controllers/appointment/router'
 import { dateTimeRouters } from './http/controllers/datetime/router'
+import { aiChatController } from './http/controllers/chat/chat'
 import { servicesRouters } from './http/controllers/services/router'
 
 const app = fastify().withTypeProvider<ZodTypeProvider>()
@@ -45,6 +46,7 @@ app.register(ScalarApiReference, {
   routePrefix: '/docs',
 })
 
+app.register(aiChatController)
 app.register(accountRouters)
 app.register(appointmentRouters)
 app.register(dateTimeRouters)

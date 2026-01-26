@@ -32,38 +32,34 @@ export class InMemoryServicesRepository implements ServicesRepository {
   }
 
   async updateServices(services: Services) {
-
-    const servicesIndex = this.items.findIndex(item => item.id === services.id)
+    const servicesIndex = this.items.findIndex(
+      (item) => item.id === services.id,
+    )
 
     this.items[servicesIndex] = services
 
-    const newServices = this.items.find(item => item.id === services.id)
+    const newServices = this.items.find((item) => item.id === services.id)
 
-    if(!newServices){
+    if (!newServices) {
       return null
     }
 
     return newServices
-    
   }
 
   async findById(serviceId: string) {
+    const service = this.items.find((item) => item.id === serviceId)
 
-    const service = this.items.find(item => item.id === serviceId)
-
-    if(!service){
+    if (!service) {
       return null
     }
 
     return service
-    
   }
 
   async findByMany() {
-
     const services = this.items
 
     return services
-    
   }
 }

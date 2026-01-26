@@ -2,10 +2,9 @@ import { AppointmentPrismaRepositories } from '@/app/repositories/prisma/appoint
 import { GetAppointmentUseCase } from '../get-appointment'
 
 export function makeGetAppointmentUseCase() {
+  const appointmentRepository = new AppointmentPrismaRepositories()
 
-    const appointmentRepository = new AppointmentPrismaRepositories()
+  const getAppointmentUseCase = new GetAppointmentUseCase(appointmentRepository)
 
-    const getAppointmentUseCase = new GetAppointmentUseCase(appointmentRepository)
-
-    return getAppointmentUseCase
+  return getAppointmentUseCase
 }

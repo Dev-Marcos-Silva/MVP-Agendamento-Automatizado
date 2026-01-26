@@ -5,11 +5,13 @@ import type { DateTimeRepository } from '../repositories/datetime-repositories'
 
 export interface FetchDateTimeUseCaseResponse {
   dateTime:
-    {
-      date: string
-      status: $Enums.Active
-      times: TimeSlot[]
-    }[] | null
+    | {
+        id: string
+        date: string
+        status: $Enums.Active
+        times: TimeSlot[]
+      }[]
+    | null
 }
 
 export class FetchDateTimeUseCase {
@@ -29,6 +31,7 @@ export class FetchDateTimeUseCase {
 
     const newDateTime = await Promise.all(
       dateTime.map(async (item) => {
+        const id = item.id
         const date = item.day
         const status = item.dayStatus
         const times = await createTimes(item.startTime, item.endTime)
@@ -55,6 +58,7 @@ export class FetchDateTimeUseCase {
         )
 
         return {
+          id,
           date,
           status,
           times: availableTimes,

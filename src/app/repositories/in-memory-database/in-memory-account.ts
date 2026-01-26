@@ -5,7 +5,12 @@ import type { AccountRepository } from '../account-repositories'
 export class InMemoryAccountRepository implements AccountRepository {
   public items: Account[] = []
 
-  async createAccount({id, name, email, password }: Prisma.AccountCreateInput) {
+  async createAccount({
+    id,
+    name,
+    email,
+    password,
+  }: Prisma.AccountCreateInput) {
     const account = {
       id: id ?? randomUUID(),
       name,
@@ -14,30 +19,25 @@ export class InMemoryAccountRepository implements AccountRepository {
     }
 
     this.items.push(account)
-
   }
 
   async findByEmail(email: string) {
+    const account = this.items.find((item) => item.email === email)
 
-    const account = this.items.find(item => item.email === email)
-
-    if(!account){
+    if (!account) {
       return null
     }
 
     return account
-    
   }
 
   async findById(accountId: string) {
+    const account = this.items.find((item) => item.id === accountId)
 
-    const account = this.items.find(item => item.id === accountId)
-
-    if(!account){
+    if (!account) {
       return null
     }
 
     return account
-    
   }
 }

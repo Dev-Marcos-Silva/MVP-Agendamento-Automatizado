@@ -27,11 +27,10 @@ export class CreateServicesUseCase {
     description,
     price,
   }: CreateServicesUseCaseRequest): Promise<CreateServicesUseCaseResponse> {
-
     const account = await this.accountRepository.findById(accountId)
-    
+
     if (!account) {
-        throw new AccountNotFoundError()
+      throw new AccountNotFoundError()
     }
 
     const services = await this.servicesRepository.createServices({
@@ -43,7 +42,7 @@ export class CreateServicesUseCase {
       price,
     })
 
-    if(!services){
+    if (!services) {
       throw new ServiceNotCreatedError()
     }
 

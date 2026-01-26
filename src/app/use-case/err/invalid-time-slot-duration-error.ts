@@ -1,5 +1,5 @@
 export class InvalidTimeSlotDurationError extends Error {
-    constructor(){
-        super('Tempo de agendamento invalido')
-    }
+  constructor() {
+    super('Tempo de agendamento invalido')
+  }
 }

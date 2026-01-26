@@ -38,52 +38,58 @@ export class InMemoryDateTimeRepository implements DateTimeRepository {
   }
 
   async findById(dateTimeId: string) {
+    const dateTime = this.items.find((item) => item.id === dateTimeId)
 
-    const dateTime = this.items.find(item => item.id === dateTimeId)
-
-    if(!dateTime){
+    if (!dateTime) {
       return null
     }
 
     return dateTime
-    
   }
 
   async findByMany() {
-
     const dateTime = this.items
+
+    return dateTime
+  }
+  async findByDay(day: string) {
+    const dateTime = this.items.find((item) => item.day === day)
+
+    if (!dateTime) {
+      return null
+    }
 
     return dateTime
   }
 
   async updateDate(dateTime: Datetime) {
-
-    const dateTimeIndex = this.items.findIndex(item => item.id === dateTime.id)
+    const dateTimeIndex = this.items.findIndex(
+      (item) => item.id === dateTime.id,
+    )
 
     this.items[dateTimeIndex] = dateTime
 
-    const newdateTime = this.items.find(item => item.id === dateTime.id)
+    const newdateTime = this.items.find((item) => item.id === dateTime.id)
 
-    if(!newdateTime){
+    if (!newdateTime) {
       return null
     }
 
     return newdateTime
-
   }
   async updateTime(dateTime: Datetime) {
-
-    const dateTimeIndex = this.items.findIndex(item => item.id === dateTime.id)
+    const dateTimeIndex = this.items.findIndex(
+      (item) => item.id === dateTime.id,
+    )
 
     this.items[dateTimeIndex] = dateTime
 
-    const newdateTime = this.items.find(item => item.id === dateTime.id)
+    const newdateTime = this.items.find((item) => item.id === dateTime.id)
 
-    if(!newdateTime){
+    if (!newdateTime) {
       return null
     }
 
     return newdateTime
   }
 }
-

@@ -2,6 +2,7 @@ import type { FastifyPluginCallbackZod } from 'fastify-type-provider-zod'
 import z4 from 'zod/v4'
 import { AppointmentAlreadyExistError } from '@/app/use-case/err/appointment-already-exist-error'
 import { AppointmentNotCreatedError } from '@/app/use-case/err/appointment-not-created-error'
+import { DateTimeNotFoundError } from '@/app/use-case/err/date-time-not-found-error'
 import { InvalidTimeSlotDurationError } from '@/app/use-case/err/invalid-time-slot-duration-error'
 import { ServiceNotFoundError } from '@/app/use-case/err/service-not-found-error'
 import { makeCreateAppointmentUseCase } from '@/app/use-case/factories/make-create-appointment-use-case'
@@ -74,6 +75,12 @@ export const createAppointment: FastifyPluginCallbackZod = (app) => {
           })
         }
 
+        if (error instanceof DateTimeNotFoundError) {
+          return reply.status(404).send({
+            message: error.message,
+          })
+        }
+
         if (error instanceof AppointmentAlreadyExistError) {
           return reply.status(409).send({
             message: error.message,
@@ -93,7 +100,7 @@ export const createAppointment: FastifyPluginCallbackZod = (app) => {
         }
 
         return reply.status(500).send({
-          message: 'Internal server error',
+          message: 'Internal server error.....',
         })
       }
     },

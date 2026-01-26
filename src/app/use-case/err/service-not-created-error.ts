@@ -1,5 +1,5 @@
 export class ServiceNotCreatedError extends Error {
-    constructor(){
-        super('Serviço não criado!')
-    }
+  constructor() {
+    super('Serviço não criado!')
+  }
 }
